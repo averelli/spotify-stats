@@ -1,2 +1,2 @@
 # spotify-stats
-Get some Spotify data and display it.
+This project is used to load data from Spotify to later make graphs and stats in style of Spotify Wrapped. 
