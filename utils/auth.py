@@ -1,6 +1,7 @@
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 import config
+from config import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI
 
 def authenticate_spotify(scope: str) -> spotipy.client.Spotify:
     """
@@ -10,6 +11,9 @@ def authenticate_spotify(scope: str) -> spotipy.client.Spotify:
         Returns:
             sp(spotipy.client.Spotify): Spotify client
     """
-    auth_manager = SpotifyClientCredentials()
-    sp = spotipy.Spotify(auth_manager=auth_manager)
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,
+                                                   client_secret=CLIENT_SECRET,
+                                                   redirect_uri=REDIRECT_URI,
+                                                   scope=scope,
+                                                   cache_path=".cache"))
     return sp
