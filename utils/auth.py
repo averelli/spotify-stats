@@ -1,5 +1,5 @@
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+from spotipy.oauth2 import SpotifyOAuth
 import config
 from config import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI
 
