@@ -38,11 +38,8 @@ def save_top_artists(data: dict):
         collection = db["top_artists"]
         document = {
             "timestamp": datetime.now(),
-            "data": {
-                "short_term": data["short_term"],
-                "medium_term": data["medium_term"],
-                "long_term": data["long_term"]
-            }
+            "time_frame": data["time_frame"],
+            "artists_data": data["artists_data"]
         }
         collection.insert_one(document)
         logger.info("Top artists saved successfully.")
