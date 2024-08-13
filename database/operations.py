@@ -46,11 +46,12 @@ def save_top_artists(data: dict):
     except Exception as e:
         logger.error(f"Error saving top artists: {e}")
 
-def fetch_tracks_document(time_frame: str, days_ago: int = 0) -> dict:
+def fetch_chart_document(chart_type:str, time_frame: str, days_ago: int = 0) -> dict:
     """
     Fetches the tracks document for a specific time frame and days ago.
 
     Args:
+        chart_type (str): Which chart document to fetch ('tracks' or 'artists').
         time_frame (str): The time frame (e.g., 'short_term', 'medium_term', 'long_term').
         days_ago (int): Number of days ago to fetch the data for. By default fetches tracks from today.
 
@@ -59,7 +60,7 @@ def fetch_tracks_document(time_frame: str, days_ago: int = 0) -> dict:
     """
     try:
         db = get_db()
-        collection = db["top_tracks"]
+        collection = db[f"top_{chart_type}"]
 
         target_date = datetime.now() - timedelta(days=days_ago)
         document = collection.find_one({
