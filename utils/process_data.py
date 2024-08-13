@@ -89,12 +89,13 @@ def process_top_artists(top_artists: dict) -> list:
             # Process each artist in the time frame
             for artist in artists["items"]:
                 artist_info = {
+                    "artist_id": artist["id"],
                     "name": artist["name"],
                     "genres": artist["genres"],
                     "followers": artist["followers"]["total"],
                     "uri": artist["uri"],
                     "image_url": artist["images"][0]["url"] if artist["images"] else None,
-                    "chart_postion": artist_position
+                    "chart_position": artist_position
                 }
                 time_frame_data["artists_data"].append(artist_info)
             
