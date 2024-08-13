@@ -15,5 +15,5 @@ def authenticate_spotify(scope: str) -> spotipy.client.Spotify:
                                                    client_secret=CLIENT_SECRET,
                                                    redirect_uri=REDIRECT_URI,
                                                    scope=scope,
-                                                   cache_path=".cache"))
+                                                   cache_path="config/.cache"))
     return sp
