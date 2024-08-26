@@ -1,0 +1,70 @@
+/* Flexbox centering */
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;     /* Center vertically */
+    height: 100vh;           /* Full viewport height */
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+/* Hide radio buttons */
+.button-group input[type="radio"] {
+    display: none;
+}
+
+/* Style the labels as buttons */
+.button-group label {
+    padding: 10px 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Highlight label when the radio button is selected */
+.button-group input[type="radio"]:checked + label {
+    background-color: black;
+    color: #fff;
+}
+
+/* Add hover effect */
+.button-group label:hover {
+    background-color: #e2e6ea;
+}
+
+/* Optional: Style the submit button */
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #fff;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: black;
+    color: #fff
+}
