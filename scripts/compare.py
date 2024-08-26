@@ -28,12 +28,20 @@ def compare_charts(chart_type: str, time_frame: str, days_ago: int):
         # Create a dictionariy for the past chart with IDs as keys
         past_chart = {item[f'{chart_type[:-1]}_id']: item for item in past_chart_doc[f'{chart_type}_data']}
 
+        comparison_items = []
+
         # Analyze differences
-        print(f"Comparison for {chart_type.capitalize()} - {time_frame.replace('_', ' ').capitalize()} ({days_ago} days ago):")
         for i, item in enumerate(today_chart_doc[f'{chart_type}_data']):
+            print(item)
             item_id = item[f'{chart_type[:-1]}_id']
             item_name = item['title' if chart_type == 'tracks' else 'name']
-            artist_name = item.get('artist_name', '')  # Only applicable for tracks
+            
+            if chart_type == "tracks":
+                image_url = item["cover_art_url"]
+            else:
+                image_url = item["image_url"]
+            
+            artist_name = item.get('artist_name', '') # only applicable to tracks
 
             if item_id in past_chart:
                 change_in_position = past_chart[item_id]['chart_position'] - item['chart_position']
@@ -41,10 +49,19 @@ def compare_charts(chart_type: str, time_frame: str, days_ago: int):
             else:
                 change_text = "(new)"
 
-            if chart_type == 'tracks':
-                print(f"{i+1}. {change_text} {item_name} by {artist_name}")
-            else:
-                print(f"{i+1}. {change_text} {item_name}")
+            comparison_items.append({
+                "position": i+1,
+                "name": item_name,
+                "artist": artist_name,
+                "change": change_text,
+                "image_url": image_url
+            })
+
+        return {
+            "title": f"Comparison for {chart_type.capitalize()} - {time_frame.replace('_', ' ').capitalize()} ({days_ago} days ago):",
+            "chart": comparison_items
+        }
 
     except Exception as e:
         logger.error(f"Error comparing {chart_type}: {e}")
+        return {"title": "Error occurred", "items": []}
