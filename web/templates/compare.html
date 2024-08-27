@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='charts.css') }}">
-</head>
-<body>
-    <h1>Chart Comparison</h1>
-    <div id="chart-block">
-        <h2>{{comparison_data.title}}</h2>
-        <ul class="chart-list">
-            {% for item in comparison_data.chart %}
-                <li class="chart-item">
-                    <div class="position">{{ item.position }}</div>
-                    <div class="image-container">
-                        <img src="{{ item.image_url }}" alt="{{ item.name }} album art" loading="lazy">
-                    </div>
-                    <div class="song-details">
-                        <span class="song-name">{{ item.name }}</span> by <span class="artist-name">{{ item.artist }}</span>
-                    </div>
-                    <div class="change" style="color: {% if '+' in item.change %} green {% elif '-' in item.change %} red {% else %} black {% endif %};">
-                        {{ item.change }}
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+{% extends "base.html" %}
+
+{% block title %}Chart Comparison{% endblock %}
+{%block styles%}
+    <link rel="stylesheet" href="{{ url_for('static', filename='charts.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="comparison-page">
+        {% include '_chart_display.html' with context %}
     </div>
-</body>
-</html>
+{% endblock %}
