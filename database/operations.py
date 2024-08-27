@@ -62,12 +62,15 @@ def fetch_chart_document(chart_type:str, time_frame: str, days_ago: int = 0) -> 
         db = get_db()
         collection = db[f"top_{chart_type}"]
 
-        target_date = datetime.now() - timedelta(days=days_ago)
-        document = collection.find_one({
-            "time_frame": time_frame,
-            "timestamp": {"$gte": target_date.replace(hour=0, minute=0, second=0, microsecond=0),
-                          "$lt": target_date.replace(hour=23, minute=59, second=59, microsecond=999999)}
-        })
+        if days_ago == 0:
+            document = list(collection.find({"time_frame": time_frame}).sort("timestamp", -1).limit(1))[0]
+        else:
+            target_date = datetime.now() - timedelta(days=days_ago)
+            document = collection.find_one({
+                "time_frame": time_frame,
+                "timestamp": {"$gte": target_date.replace(hour=0, minute=0, second=0, microsecond=0),
+                              "$lt": target_date.replace(hour=23, minute=59, second=59, microsecond=999999)}
+            })
 
         if document:
             return document
