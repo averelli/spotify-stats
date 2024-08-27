@@ -1,0 +1,40 @@
+<!-- templates/charts.html -->
+{% extends "base.html" %}
+
+{% block title %}Top Tracks{% endblock %}
+
+{%block styles%}
+    <link rel="stylesheet" href="{{ url_for('static', filename='charts.css') }}">
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='charts.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="charts-page">
+        <div class="navbar">
+            <button id="short_term_btn" class="nav-btn">Short Term</button>
+            <button id="medium_term_btn" class="nav-btn">Medium Term</button>
+            <button id="long_term_btn" class="nav-btn">Long Term</button>
+        </div>
+
+        <div id="chart-container">
+            <div id="short_term_chart" class="chart-content">
+                {% set title = 'Short Term Chart' %}
+                {% set chart = short_term_chart %}
+                {% include '_chart_display.html' %}
+            </div>
+            <div id="medium_term_chart" class="chart-content">
+                {% set title = 'Medium Term Chart' %}
+                {% set chart = medium_term_chart %}
+                {% include '_chart_display.html' %}
+            </div>
+            <div id="long_term_chart" class="chart-content">
+                {% set title = 'Long Term Chart' %}
+                {% set chart = long_term_chart %}
+                {% include '_chart_display.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

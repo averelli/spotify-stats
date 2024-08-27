@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My App{% endblock %}</title>
+
+    <!-- Link to Navbar Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+    
+    <!-- Link to other styles as needed -->
+    {% block styles %}
+    {% endblock %}
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Link to other scritps as needed -->
+    {% block scripts %}
+    {% endblock %}
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('main.home') }}">Home</a></li>
+            <li><a href="{{ url_for('main.compare_form') }}">Compare Charts</a></li>
+            <li><a href="{{ url_for('main.top_tracks') }}">Top Tracks</a></li>
+        </ul>
+    </nav>
+
+    <!-- Content block -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 My App</p>
+    </footer>
+</body>
+</html>

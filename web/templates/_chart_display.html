@@ -1,0 +1,21 @@
+<div id="chart-block">
+    <h2>{{ title }}</h2>
+    <ul class="chart-list">
+        {% for item in chart %}
+            <li class="chart-item">
+                <div class="position">{{ item.chart_position }}</div>
+                <div class="image-container">
+                    <img src="{{ item.cover_art_url }}" alt="{{ item.title }} album art" loading="lazy">
+                </div>
+                <div class="song-details">
+                    <span class="song-name">{{ item.title }}</span> <span class="artist-name">{{ item.artist_name }}</span>
+                </div>
+                {% if item.change is defined %}
+                <div class="change" style="color: {% if '+' in item.change %} green {% elif '-' in item.change %} red {% else %} black {% endif %};">
+                    {{ item.change }}
+                </div>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>

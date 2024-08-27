@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='compare-form.css') }}">
+</head>
+<body>
+    <div class="form-container">
+        <form action="/compare_charts" method="post">
+        <h1>Search Form</h1>
+        <!-- Radio button group for selecting 'tracks' or 'artists' -->
+        <div class="button-group">
+            <input type="radio" id="tracks" name="type" value="tracks" required>
+            <label for="tracks">Tracks</label>
+
+            <input type="radio" id="artists" name="type" value="artists" required>
+            <label for="artists">Artists</label>
+        </div>
+
+        <!-- Radio button group for selecting 'short/medium/long_term' -->
+        <div class="button-group">
+            <input type="radio" id="short_term" name="range" value="short_term" required>
+            <label for="short_term">Short</label>
+
+            <input type="radio" id="medium_term" name="range" value="medium_term" required>
+            <label for="medium_term">Medium</label>
+
+            <input type="radio" id="long_term" name="range" value="long_term" required>
+            <label for="long_term">Long</label>
+        </div>
+
+        <!-- Number input field -->
+        <div class="form-group">
+            <label for="days">Enter a number:</label>
+            <input type="number" id="days" name="days" required>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit">Submit</button>
+    </form>
+    </div>
+</body>
+</html>
+
