@@ -12,6 +12,7 @@
 .chart-item {
     display: flex;
     align-items: center;
+    justify-content: space-between; /* Ensure space between the song details and the change indicator */
     padding: 10px;
     border-bottom: 1px solid #ccc; /* Optional: add a subtle divider */
     transition: background-color 0.3s;
@@ -37,6 +38,7 @@
     margin-right: 15px;
     border-radius: 5px; /* Optional: add rounded corners */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a subtle shadow */
+    flex-shrink: 0; /* Prevent the image container from shrinking */
 }
 
 .image-container img {
@@ -48,10 +50,17 @@
 /* Song details styling */
 .song-details {
     flex-grow: 1;
+    min-width: 0; /* Allows text to wrap properly */
+    display: flex;
+    flex-direction: column; /* Stack song title and artist name vertically */
+    justify-content: center; /* Vertically align the text */
 }
 
 .song-name {
     font-weight: bold;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis (...) when text overflows */
 }
 
 .artist-name {
@@ -62,4 +71,14 @@
 .change {
     font-size: 1.2em;
     margin-left: 10px;
+    text-align: right; /* Right-align the change indicator */
+    min-width: 50px; /* Ensure the change indicator has a consistent width */
+}
+
+.chart-content {
+    display: none;
+}
+
+.chart-content.active {
+    display: block;
 }
