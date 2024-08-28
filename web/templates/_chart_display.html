@@ -8,7 +8,7 @@
                     <img src="{{ item.cover_art_url }}" alt="{{ item.title }} album art" loading="lazy">
                 </div>
                 <div class="item-details">
-                    <a href="/tracks/{{ item.track_id if chart_type == 'tracks' else item.artist_id }}" class="item-name">{{ item.title }}</a> 
+                    <a href="{{ url_for('main.track', track_id=item.track_id) if chart_type == 'tracks' else url_for('main.artist', artist_id=item.artist_id) }}" class="item-name">{{ item.title }}</a> 
                     <a href="/artists/{{ item.artist_id }}" class="item-details">{{ item.artist_name }}</a>
                 </div>
                 {% if item.change is defined %}
