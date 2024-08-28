@@ -38,8 +38,10 @@ def compare_charts(chart_type: str, time_frame: str, days_ago: int):
             
             if chart_type == "tracks":
                 image_url = item["cover_art_url"]
-            else:  # Only applicable for tracks
+                track_id = item["track_id"]
+            else:
                 image_url = item["image_url"]
+                track_id = None
             
             artist_name = item.get('artist_name', '') # only applicable to tracks
 
@@ -54,7 +56,9 @@ def compare_charts(chart_type: str, time_frame: str, days_ago: int):
                 "title": item_name,
                 "artist_name": artist_name,
                 "change": change_text,
-                "cover_art_url": image_url
+                "cover_art_url": image_url,
+                "artist_id": item["artist_id"],
+                "track_id": track_id
             })
 
         return {
