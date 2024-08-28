@@ -8,6 +8,11 @@
     margin: 0 auto; /* Center the chart list */
 }
 
+#chart-block h2 {
+    margin: 0 auto;
+    text-align: center;
+}
+
 /* Individual chart item styling */
 .chart-item {
     display: flex;
@@ -81,4 +86,46 @@
 
 .chart-content.active {
     display: block;
+}
+
+/* Navbar container */
+.navbar {
+    display: flex;
+    justify-content: center; /* Center the navbar horizontally */
+    margin-bottom: 20px; /* Add space below the navbar */
+}
+
+/* Button group styling */
+.nav-btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* Navbar buttons */
+.nav-btn {
+    padding: 10px 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    outline: none;
+    text-align: center;
+}
+
+/* Active button style */
+.nav-btn.active {
+    background-color: black;
+    color: #fff;
+}
+
+/* Hover effect for buttons */
+.nav-btn:hover {
+    background-color: #e2e6ea;
+}
+
+.nav-btn.active:hover {
+    background-color: #e2e6ea;
+    color: black;
 }
