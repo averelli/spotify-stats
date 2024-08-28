@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, abort
 from scripts.compare import compare_charts
-from database import fetch_chart_document
+from database import fetch_chart_document, get_track_details, get_artist_details
+from utils import fetch_artist_details
 
 main_bp = Blueprint("main", __name__)
 
@@ -38,5 +39,25 @@ def compare(chart_type, time_frame, days_ago):
 
     return render_template("compare.html", 
                            title=f"Comparison for {chart_type.capitalize()} - {time_frame.replace('_', ' ').capitalize()} ({days_ago} days ago):",
-                           chart=comparison_data["chart"])
+                           chart=comparison_data["chart"],
+                           chart_type = "tracks")
 
+@main_bp.route("/tracks/<track_id>")
+def track(track_id):
+    track_data = get_track_details(track_id)
+    if track_data is None:
+        abort(404)
+
+    return render_template("track_page.html", track_data = track_data)
+
+@main_bp.route("/artists/<artist_id>")
+def artist(artist_id):
+    artist_data = get_artist_details(artist_id)
+    # if artist is not in the db, call spotify api
+    if artist_data is None:
+        artist_data = fetch_artist_details(artist_id)
+    # artist is not found by id
+    if artist_data is None:
+        abort(404)
+
+    return render_template("artist_page.html", artist_data = artist_data)
