@@ -7,8 +7,9 @@
                 <div class="image-container">
                     <img src="{{ item.cover_art_url }}" alt="{{ item.title }} album art" loading="lazy">
                 </div>
-                <div class="song-details">
-                    <span class="song-name">{{ item.title }}</span> <span class="artist-name">{{ item.artist_name }}</span>
+                <div class="item-details">
+                    <a href="/tracks/{{ item.track_id if chart_type == 'tracks' else item.artist_id }}" class="item-name">{{ item.title }}</a> 
+                    <a href="/artists/{{ item.artist_id }}" class="item-details">{{ item.artist_name }}</a>
                 </div>
                 {% if item.change is defined %}
                 <div class="change" style="color: {% if '+' in item.change %} green {% elif '-' in item.change %} red {% else %} black {% endif %};">
