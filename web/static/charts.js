@@ -1,24 +1,26 @@
-// scripts.js
-$(document).ready(function() {
-    // Initially, show the short-term chart and hide others
+$(document).ready(function () {
+    // Default settings: Show short term chart
+    $('.chart-content').hide();
     $('#short_term_chart').show();
-    $('#medium_term_chart').hide();
-    $('#long_term_chart').hide();
 
-    // Set the short-term button as active by default
-    $('#short_term_btn').addClass('active');
-
-    // Handle button clicks
-    $('.nav-btn').click(function() {
-        // Remove active class from all buttons and add to the clicked one
+    // Handle navbar button clicks
+    $('.nav-btn').click(function () {
+        // Remove 'active' class from all buttons
         $('.nav-btn').removeClass('active');
+
+        // Add 'active' class to the clicked button
         $(this).addClass('active');
 
-        // Hide all chart contents
+        // Hide all charts
         $('.chart-content').hide();
 
-        // Show the selected chart
-        const selectedChart = $(this).attr('id').replace('_btn', '_chart');
-        $('#' + selectedChart).show();
+        // Show the corresponding chart
+        if ($(this).attr('id') === 'short_term_btn') {
+            $('#short_term_chart').show();
+        } else if ($(this).attr('id') === 'medium_term_btn') {
+            $('#medium_term_chart').show();
+        } else if ($(this).attr('id') === 'long_term_btn') {
+            $('#long_term_chart').show();
+        }
     });
 });
