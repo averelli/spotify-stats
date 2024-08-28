@@ -1,7 +1,6 @@
 from spotipy import Spotify
 from logs import logger
-
-logger.name = "UTILS-FETCH"
+from utils import authenticate_spotify
 
 def fetch_top_tracks(sp: Spotify, limit:int = 10) -> dict:
     """
@@ -66,3 +65,18 @@ def fetch_audio_features(sp: Spotify, track_ids: list) -> list:
     except Exception as e:
         logger.error(f"Error fetching audio features: {e}")
         return []
+    
+def fetch_artist_details(artist_id):
+    """
+    Retrieves the details of a specific artist from the top_tracks collection.
+    Args:
+        artist_id (str): The unique identifier for the artist.
+    Returns:
+        dict: A dictionary containing the artist details (artist name, tracks, etc.)
+              if the artist is found. If no artist is found, returns None.
+    """
+    sp = authenticate_spotify("")
+    artist_doc = sp.artist(artist_id)
+    if artist_doc:
+        return artist_doc
+    return None
