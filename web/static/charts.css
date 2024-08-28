@@ -52,8 +52,8 @@
     object-fit: cover; /* Ensures the image covers the container without distortion */
 }
 
-/* Song details styling */
-.song-details {
+/* Item details styling */
+.item-details {
     flex-grow: 1;
     min-width: 0; /* Allows text to wrap properly */
     display: flex;
@@ -61,14 +61,15 @@
     justify-content: center; /* Vertically align the text */
 }
 
-.song-name {
+.item-name {
     font-weight: bold;
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden;
+    color: black;
     text-overflow: ellipsis; /* Add ellipsis (...) when text overflows */
 }
 
-.artist-name {
+.item-details {
     color: #555; /* Slightly dimmer color for the artist name */
 }
 
@@ -128,4 +129,15 @@
 .nav-btn.active:hover {
     background-color: #e2e6ea;
     color: black;
+}
+
+/* Reset link styles */
+.item-details a {
+    text-decoration: none; /* Remove underline by default */
+    cursor: pointer; /* Make it clear it's clickable */
+}
+
+/* Add underline on hover */
+.item-details a:hover {
+    text-decoration: underline; /* Show underline on hover */
 }
