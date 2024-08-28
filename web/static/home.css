@@ -16,7 +16,7 @@ body, html {
 }
 
 h1 {
-    font-size: 6em; /* Giant text */
+    font-size: 8em; /* Giant text */
     margin-bottom: 20px;
 }
 
@@ -24,12 +24,10 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 20px;
-    border-top: 1px solid #ccc;
 }
 
 .nav-button {
-    padding: 15px 5px;
-    font-size: 1.2em;
+    font-size: 1.7em;
     color: #ecf0f1;
     text-decoration: none;
     transition: background-color 0.3s ease;
