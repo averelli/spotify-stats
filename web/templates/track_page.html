@@ -2,21 +2,39 @@
 
 {% block title %} {{ track_data.title }} {% endblock %}
 
-{%block styles%}
+{% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='track_artist_page.css') }}">
 {% endblock %}
 
 {% block content %}
     <div class="main-block">
-        <div class="image-container">
-            <img src="{{ track_data.cover_art_url }}" alt="{{ track_data.title }} cover art">
+        <!-- Top Section: Image and Text -->
+        <div class="top-section">
+            <div class="image-container">
+                <img src="{{ track_data.cover_art_url }}" alt="{{ track_data.title }} cover art">
+            </div>
+            <div class="text-block">
+                <h1>{{ track_data.title }}</h1>
+                <p><strong>Artist:</strong> <a href="{{ url_for('main.artist', artist_id=track_data.artist_id) }}"> {{ track_data.artist_name }} </a> </p>
+                <p><strong>Album:</strong> {{ track_data.album_name }}</p>
+                <p><strong>Release Date:</strong> {{ track_data.release_date }}</p>
+                <p><strong>Popularity:</strong> {{ track_data.popularity }}</p>
+            </div>
         </div>
-        <div class="text-block">
-            <h1>{{ track_data.title }}</h1>
-            <p><strong>Artist:</strong> <a href="{{ url_for('main.artist', artist_id=track_data.artist_id) }}"> {{ track_data.artist_name }} </a> </p>
-            <p><strong>Album:</strong> {{ track_data.album_name }}</p>
-            <p><strong>Release Date:</strong> {{ track_data.release_date }}</p>
-            <p><strong>Popularity:</strong> {{ track_data.popularity }}</p>
+
+        <!-- Bottom Section: Stats Cards -->
+        <div class="bottom-section">
+            {% for item in stats %}
+                <div class="stat-card">
+                    <h3>{{ item.time_frame.replace("_", " ").capitalize() }}</h3>
+                    <ul>
+                        <li><strong>Current position:</strong> {{ item.chart_position }}</li>
+                        <li><strong>Days in the chart:</strong> {{ item.duration }}</li>
+                        <li><strong>Max position:</strong> {{ item.max_position }}</li>
+                        <li><strong>Min position:</strong> {{ item.min_position }}</li>
+                    </ul>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
