@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, abort
 from scripts.compare import compare_charts
 from database import fetch_chart_document, get_track_details, get_artist_details
 from utils import fetch_artist_details
+from stats import get_track_chart_stats
 
 main_bp = Blueprint("main", __name__)
 
@@ -45,10 +46,13 @@ def compare(chart_type, time_frame, days_ago):
 @main_bp.route("/tracks/<track_id>")
 def track(track_id):
     track_data = get_track_details(track_id)
+
     if track_data is None:
         abort(404)
+    
+    user_stats = get_track_chart_stats(track_id)
 
-    return render_template("track_page.html", track_data = track_data)
+    return render_template("track_page.html", track_data = track_data, stats = user_stats)
 
 @main_bp.route("/artists/<artist_id>")
 def artist(artist_id):
