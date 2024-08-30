@@ -52,7 +52,7 @@ def track(track_id):
     
     user_stats = get_track_chart_stats(track_id)
 
-    return render_template("track_page.html", track_data = track_data, stats = user_stats)
+    return render_template("card_display.html", track_data = track_data, stats = user_stats, page_type="track_card.html", title = track_data["title"])
 
 @main_bp.route("/artists/<artist_id>")
 def artist(artist_id):
@@ -64,4 +64,4 @@ def artist(artist_id):
     if artist_data is None:
         abort(404)
 
-    return render_template("artist_page.html", artist_data = artist_data)
+    return render_template("card_display.html", artist_data = artist_data, page_type="artist_card.html", title=artist_data["name"])
