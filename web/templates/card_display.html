@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %} {{ track_data.title }} {% endblock %}
+{% block title %}
+    {{ title }} 
+{% endblock %}
 
 {% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='track_artist_page.css') }}">
@@ -10,16 +12,7 @@
     <div class="main-block">
         <!-- Top Section: Image and Text -->
         <div class="top-section">
-            <div class="image-container">
-                <img src="{{ track_data.cover_art_url }}" alt="{{ track_data.title }} cover art">
-            </div>
-            <div class="text-block">
-                <h1>{{ track_data.title }}</h1>
-                <p><strong>Artist:</strong> <a href="{{ url_for('main.artist', artist_id=track_data.artist_id) }}"> {{ track_data.artist_name }} </a> </p>
-                <p><strong>Album:</strong> {{ track_data.album_name }}</p>
-                <p><strong>Release Date:</strong> {{ track_data.release_date }}</p>
-                <p><strong>Popularity:</strong> {{ track_data.popularity }}</p>
-            </div>
+            {% include page_type %}
         </div>
 
         <!-- Bottom Section: Stats Cards -->

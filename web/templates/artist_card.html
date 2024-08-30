@@ -1,0 +1,7 @@
+<div class="image-container">
+    <img src="{{ artist_data.image_url }}" alt="{{ artist_data.name }} photo">
+</div>
+<div class="text-block">
+    <h1>{{ artist_data.name }}</h1>
+    <p><strong>Genres: </strong> {{ ", ".join(artist_data.genres) }}</p>
+</div>
