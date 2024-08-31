@@ -98,9 +98,10 @@ def process_top_artists(top_artists: dict) -> list:
                     "chart_position": artist_position
                 }
                 time_frame_data["artists_data"].append(artist_info)
+                artist_position += 1
             
             processed_artists.append(time_frame_data)
-            artist_position += 1
+            
             
         logger.info("Top artists processed successfully.")
     
