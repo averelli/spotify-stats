@@ -1,7 +1,7 @@
 <!-- templates/charts.html -->
 {% extends "base.html" %}
 
-{% block title %}Top Tracks{% endblock %}
+{% block title %}Top {{ chart_type|capitalize }} {% endblock %}
 
 {%block styles%}
     <link rel="stylesheet" href="{{ url_for('static', filename='charts.css') }}">
