@@ -4,13 +4,22 @@
         {% for item in chart %}
             <li class="chart-item">
                 <div class="position">{{ item.chart_position }}</div>
+    
                 <div class="image-container">
-                    <img src="{{ item.cover_art_url }}" alt="{{ item.title }} album art" loading="lazy">
+                    <img src="{{ item.cover_art_url if chart_type == 'tracks' else item.image_url }}" 
+                         alt="{{ item.title if chart_type == 'tracks' else item.name }} album art" 
+                         loading="lazy">
                 </div>
-                <div class="item-details">
-                    <a href="{{ url_for('main.track', track_id=item.track_id) if chart_type == 'tracks' else url_for('main.artist', artist_id=item.artist_id) }}" class="item-name">{{ item.title }}</a> 
-                    <a href="/artists/{{ item.artist_id }}" class="item-details">{{ item.artist_name }}</a>
+    
+                <div class="item">
+                    <a class="item-main" href="{{ url_for('main.track', track_id=item.track_id) if chart_type == 'tracks' else url_for('main.artist', artist_id=item.artist_id) }}" class="item-name">
+                        {{ item.title if chart_type == 'tracks' else item.name }}
+                    </a>
+                    <a href="{{ url_for('main.artist', artist_id=item.artist_id) }}" class="item-details">
+                        {{ item.artist_name if chart_type == 'tracks' else '' }}
+                    </a>
                 </div>
+    
                 {% if item.change is defined %}
                 <div class="change" style="color: {% if '+' in item.change %} green {% elif '-' in item.change %} red {% else %} black {% endif %};">
                     {{ item.change }}
