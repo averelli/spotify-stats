@@ -35,3 +35,15 @@ nav ul li a:hover {
     color: #000; /* Darker text on hover */
     border-bottom: 2px solid #000; /* Underline effect on hover */
 }
+
+
+
+/* Adjust for mobile phones (less than 480px) */
+@media (max-width: 480px) {
+
+  
+
+    nav ul li a {
+        font-size: 0.9em; /* Further reduce font size */
+    }
+}

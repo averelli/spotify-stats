@@ -1,4 +1,9 @@
-/* Overall chart list styling */
+#chart-block {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 4px;
+}
+
 .chart-list {
     list-style-type: none;
     padding: 0;
@@ -19,8 +24,13 @@
     align-items: center;
     justify-content: space-between; /* Ensure space between the song details and the change indicator */
     padding: 10px;
-    border-bottom: 1px solid #ccc; /* Optional: add a subtle divider */
+    border-top: 1px solid #ccc; 
     transition: background-color 0.3s;
+}
+
+/* Remove the top border for the first item */
+.chart-item:first-child {
+    border-top: none;
 }
 
 .chart-item:hover {
@@ -52,11 +62,13 @@
     object-fit: cover; /* Ensures the image covers the container without distortion */
 }
 
-/* Item details styling */
-.item-details {
+/* Item styling */
+.item {
     flex-grow: 1;
+    font-size: 1em;
     min-width: 0; /* Allows text to wrap properly */
     display: flex;
+    color: black;
     flex-direction: column; /* Stack song title and artist name vertically */
     justify-content: center; /* Vertically align the text */
 }
@@ -132,12 +144,25 @@
 }
 
 /* Reset link styles */
-.item-details a {
+.item a {
     text-decoration: none; /* Remove underline by default */
     cursor: pointer; /* Make it clear it's clickable */
 }
 
+.item-main {
+    color: black;
+}
+
 /* Add underline on hover */
-.item-details a:hover {
+.item a:hover {
     text-decoration: underline; /* Show underline on hover */
+}
+
+@media (max-width: 400px) {
+    .chart-list {
+        max-width: 320px;
+    }
+    .item-details {
+        font-size: 14px;
+    }
 }
