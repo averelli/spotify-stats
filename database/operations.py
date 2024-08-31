@@ -54,7 +54,7 @@ def fetch_chart_document(chart_type:str, time_frame: str, days_ago: int = 0) -> 
         days_ago (int): Number of days ago to fetch the data for. By default fetches tracks from today.
 
     Returns:
-        dict: The document containing track data from the specified time.
+        dict: The document containing chart data from the specified time.
     """
     try:
         db = get_db()
