@@ -47,16 +47,16 @@ def compare_charts(chart_type: str, time_frame: str, days_ago: int) -> dict:
                 "change": change_text,
                 "cover_art_url": item.get("cover_art_url", ""),
                 "image_url": item.get("image_url", ""),
-                "artist_id": item["artist_id"],
                 "track_id": item.get("track_id", ""),
                 "artist_id": item.get("artist_id", ""),
             })
 
         return {
-            "title": f"Comparison for {chart_type.capitalize()} - {time_frame.replace("_", " ").capitalize()} ({days_ago} days ago):",
+            "title": f"Comparison for {chart_type.capitalize()} - {time_frame.replace('_', ' ').capitalize()} ({days_ago} days ago):",
             "chart": comparison_items
         }
 
     except Exception as e:
         logger.error(f"Error comparing {chart_type}: {e}")
         return {"title": "Error occurred", "items": []}
+    
