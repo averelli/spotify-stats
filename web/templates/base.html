@@ -13,14 +13,19 @@
     {% endblock %}
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Link to other scritps as needed -->
+    <!-- Link to other scripts as needed -->
     {% block scripts %}
     {% endblock %}
 </head>
 <body>
     <!-- Navigation bar -->
     <nav>
-        <ul>
+        <div class="nav-container">
+            <div class="nav-right">
+                <div class="nav-toggle">&#9776;</div> <!-- Hamburger icon -->
+            </div>
+        </div>
+        <ul class="nav-menu">
             <li><a href="{{ url_for('main.home') }}">Home</a></li>
             <li><a href="{{ url_for('main.compare_form') }}">Compare Charts</a></li>
             <li><a href="{{ url_for('main.top_tracks') }}">Top Tracks</a></li>
@@ -37,5 +42,15 @@
     <footer>
         <p>&copy; 2024 Averelli</p>
     </footer>
+
+    <!-- JavaScript for toggling the menu -->
+    <script>
+        $(document).ready(function(){
+            $('.nav-toggle').click(function(){
+                $('.nav-menu').toggleClass('nav-menu-visible');
+                $(this).toggleClass('open'); // Toggles the open class
+            });
+        });
+    </script>
 </body>
 </html>

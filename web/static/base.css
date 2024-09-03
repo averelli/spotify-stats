@@ -6,13 +6,36 @@
     justify-content: center;
     align-items: center;
 }
+
 /* Navbar Styles */
 nav {
-    background-color: #fff; /* Or any other color you prefer */
+    background-color: #fff; 
     padding: 10px 20px;
+    position: relative;
 }
 
-nav ul {
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Pushes the content to the right */
+}
+
+/* Hide the nav-home-link on desktop */
+.nav-home-link {
+    font-size: 1.8em; 
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    display: none; 
+}
+
+.nav-menu {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -20,30 +43,87 @@ nav ul {
     justify-content: center; /* Center the navigation items */
 }
 
-nav ul li {
+.nav-menu li {
     margin: 0 15px;
 }
 
-nav ul li a {
+.nav-menu li a {
     text-decoration: none;
-    color: #333; /* Text color */
+    color: #333; 
     font-size: 1.2em;
     font-weight: bold;
 }
 
-nav ul li a:hover {
+.nav-menu li a:hover {
     color: #000; /* Darker text on hover */
     border-bottom: 2px solid #000; /* Underline effect on hover */
 }
 
+.nav-toggle {
+    display: none;
+    font-size: 2.2em; /* Increased icon size */
+    cursor: pointer;
+}
+
+/* Adjust for mobile phones (less than 768px) */
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
+
+    .nav-menu-visible {
+        transform: translateX(0);
+    }
+
+    .nav-menu li {
+        margin: 20px 0;
+    }
+
+    .nav-toggle {
+        display: block; /* Show in mobile view */
+    }
 
 
-/* Adjust for mobile phones (less than 480px) */
-@media (max-width: 480px) {
+    .nav-right {
+        width: auto; /* Adjusts to content width */
+        margin-left: auto; /* Align to right side */
+        justify-content: flex-end; /* Pushes content to the right */
+    }
 
-  
+    .nav-toggle {
+        margin-left: 15px; /* Adjust spacing between icon and Home */
+        font-size: 2.2em; /* Increased size */
+    }
 
-    nav ul li a {
-        font-size: 0.9em; /* Further reduce font size */
+    /* Toggle icon visibility */
+    .nav-menu-visible ~ .nav-right .nav-toggle,
+    .open.nav-toggle {
+        display: block;
+    }
+    
+    .open.nav-toggle {
+        z-index: 1001; /* Ensures it stays visible */
+    }
+}
+
+/* Adjust for very small phones (less than 480px) */
+@media (max-width: 400px) {
+    .nav-home-link {
+        font-size: 1.5em; /* Adjust for very small screens */
+    }
+
+    .nav-toggle {
+        font-size: 2em; /* Adjust icon size for small screens */
     }
 }
