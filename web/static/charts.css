@@ -165,4 +165,9 @@
     .item-details {
         font-size: 14px;
     }
+    
+    .nav-btn.active:hover {
+        background-color: black;
+        color: #fff;
+    }
 }
