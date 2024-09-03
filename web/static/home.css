@@ -13,6 +13,7 @@ body, html {
 .home-container {
     text-align: center;
     color: #ecf0f1; /* Light text color for contrast */
+    padding: 20px;
 }
 
 h1 {
@@ -35,4 +36,36 @@ h1 {
 
 .nav-button:hover {
     border-bottom: 1px solid #ccc;
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 4em; /* Smaller text size for smaller screens */
+        margin-bottom: 15px;
+    }
+
+    .nav-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-button {
+        font-size: 1.5em; /* Adjust button text size for better readability on small screens */
+    }
+    .nav-button:hover {
+        border-bottom: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 3em; /* Further reduce the size on very small screens */
+        line-height: 1.2; /* Adjust line height to fit better */
+        margin-bottom: 10px;
+    }
+
+    .nav-button {
+        font-size: 1.3em; /* Adjust button text size for better readability on small screens */
+    }
 }
