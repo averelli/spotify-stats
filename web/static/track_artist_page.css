@@ -121,7 +121,7 @@
     }
 
     .stat-card {
-        width: 100%;
+        width: 80;
         text-align: left; /* Center-align text in stat cards */
         padding: 10px; /* Slightly reduce padding on mobile */
     }
