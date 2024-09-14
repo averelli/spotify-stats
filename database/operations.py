@@ -1,7 +1,8 @@
 from datetime import datetime
 from database import get_db
 from logs import logger
-from datetime import timedelta
+from datetime import datetime
+from pymongo import DESCENDING
 
 def save_top_tracks(data: dict):
     """
@@ -44,42 +45,58 @@ def save_top_artists(data: dict):
     except Exception as e:
         logger.error(f"Error saving top artists: {e}")
 
-def fetch_chart_document(chart_type:str, time_frame: str, days_ago: int = 0) -> dict:
+
+def fetch_chart_document(chart_type: str, time_frame: str, date: datetime = None) -> dict:
     """
-    Fetches the tracks document for a specific time frame and days ago.
+    Fetches the chart document for a specific time frame and date.
+    If no exact document is found for the given date, fetches the closest one before that date.
 
     Args:
         chart_type (str): Which chart document to fetch ('tracks' or 'artists').
         time_frame (str): The time frame (e.g., 'short_term', 'medium_term', 'long_term').
-        days_ago (int): Number of days ago to fetch the data for. By default fetches tracks from today.
+        date (datetime): The date for which to fetch the data (in "YYYY-MM-DD" format). 
+                         If None, fetches the latest available data.
 
     Returns:
-        dict: The document containing chart data from the specified time.
+        dict: The document containing chart data from the specified date or closest available date.
     """
     try:
         db = get_db()
         collection = db[f"top_{chart_type}"]
 
-        if days_ago == 0:
+        if date is None:
+            # If no date is provided, fetch the latest document
             document = list(collection.find({"time_frame": time_frame}).sort("timestamp", -1).limit(1))[0]
         else:
-            target_date = datetime.now() - timedelta(days=days_ago)
+            # Parse the provided date and look for the closest document before the specified date
+            target_date_start = date.replace(hour=0, minute=0, second=0, microsecond=0)
+            target_date_end = date.replace(hour=23, minute=59, second=59, microsecond=999999)
+
+            # First try to find the exact match for the given date
             document = collection.find_one({
                 "time_frame": time_frame,
-                "timestamp": {"$gte": target_date.replace(hour=0, minute=0, second=0, microsecond=0),
-                              "$lt": target_date.replace(hour=23, minute=59, second=59, microsecond=999999)}
+                "timestamp": {"$gte": target_date_start, "$lt": target_date_end}
             })
+
+            # If no document is found, get the closest one before the date
+            if not document:
+                document = list(collection.find({
+                    "time_frame": time_frame,
+                    "timestamp": {"$lt": target_date_start}
+                }).sort("timestamp", DESCENDING).limit(1))
+
+                if document:
+                    document = document[0]
 
         if document:
             return document
         else:
-            logger.error(f"No data found for {days_ago} days ago in {time_frame}.")
+            logger.error(f"No data found for date {date} or earlier in {time_frame}.")
             return None
 
     except Exception as e:
-        logger.error(f"Error fetching tracks for time frame {time_frame}: {e}")
+        logger.error(f"Error fetching chart data for time frame {time_frame} on {date}: {e}")
         return None
-    
 
 def get_track_details(track_id):
     """
