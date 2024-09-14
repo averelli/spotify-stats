@@ -1,14 +1,9 @@
-/* Flexbox centering */
-body, html {
-    height: 100%;
-    margin: 0;
-}
-
+/* Main form styles */
 .form-container {
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center;     /* Center vertically */
-    height: 100vh;           /* Full viewport height */
+    height: 90vh;           /* Full viewport height */
 }
 
 form {
@@ -62,9 +57,89 @@ button[type="submit"] {
     color: black;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: large;
 }
 
 button[type="submit"]:hover {
     background-color: black;
-    color: #fff
+    color: #fff;
+}
+
+.form-group {
+    font-size: large;
+}
+
+button {
+    margin-top: 15px;
+}
+
+/* Mobile-friendly styles */
+@media (max-width: 400px) {
+    /* Full page form layout, aligned from top to bottom */
+    .form-container {
+        display: block;
+        padding: 20px;
+        height: auto; /* No fixed height */
+    }
+
+    form {
+        width: 100%;
+        padding: 10px;
+        border-radius: 0;
+        border: none;
+    }
+
+    .button-group {
+        display: block; /* Stack radio buttons vertically */
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Ensure radio buttons are hidden */
+    .button-group input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+    }
+
+    /* Override label styling for mobile to remove border and background */
+    .button-group input[type="radio"] + label {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        cursor: pointer;
+        gap: 10px;
+        background-color: transparent !important; /* Override default background */
+        border: none !important; /* Remove border for mobile */
+        color: black !important; /* Ensure text color stays black */
+    }
+
+    /* Checkbox appearance */
+    .button-group input[type="radio"] + label::before {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid black;
+        border-radius: 3px; /* Slightly rounded corners */
+        background-color: white;
+        margin-right: 10px;
+        box-sizing: border-box; /* Ensure proper border alignment */
+    }
+
+    /* When checked, fill the checkbox with black (no checkmark) */
+    .button-group input[type="radio"]:checked + label::before {
+        background-color: black;
+    }
+
+    /* Adjust submit button for full width */
+    button[type="submit"] {
+        width: 100%;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    button[type="submit"]:hover {
+        background-color: white;
+        color: black;
+    }
 }

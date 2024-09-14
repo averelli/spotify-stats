@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %} Compare Charts {% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='compare-form.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <form action="/compare_form" method="post">
+            <h1>Select charts to compare</h1>
+
+            <!-- Radio button group for selecting 'tracks' or 'artists' -->
+            <h2>Chart Type:</h2>
+            <div class="button-group">
+                <input type="radio" id="tracks" name="type" value="tracks" required>
+                <label for="tracks">Tracks</label>
+
+                <input type="radio" id="artists" name="type" value="artists" required>
+                <label for="artists">Artists</label>
+            </div>
+
+            <!-- Radio button group for selecting date to compare -->
+            <h2>Compare to date:</h2>
+            <div class="button-group">
+                <input type="radio" id="yesterday" name="date_option" value="yesterday">
+                <label for="yesterday">Yesterday</label>
+
+                <input type="radio" id="week_ago" name="date_option" value="week_ago">
+                <label for="week_ago">1 Week Ago</label>
+
+                <input type="radio" id="month_ago" name="date_option" value="month_ago">
+                <label for="month_ago">1 Month Ago</label>
+            </div>
+
+            <!-- Calendar input for custom date -->
+            <div class="form-group">
+                <label for="custom_date">Or Select a Date:</label>
+                <input type="date" id="custom_date" name="custom_date">
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit">Compare</button>
+        </form>
+    </div>
+
+    <script>
+        // Get references to the radio buttons and the custom date input
+        const radioButtons = document.querySelectorAll('input[name="date_option"]');
+        const customDateInput = document.getElementById('custom_date');
+    
+        // Add event listener for the custom date input
+        customDateInput.addEventListener('change', function() {
+            // Deselect all radio buttons when a custom date is selected
+            radioButtons.forEach(function(radio) {
+                radio.checked = false;
+            });
+        });
+    
+        // Add event listeners for radio buttons to clear the custom date input when any radio is selected
+        radioButtons.forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                customDateInput.value = ''; // Clear custom date when a radio button is selected
+            });
+        });
+    </script>
+
+{% endblock %}

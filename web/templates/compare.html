@@ -1,11 +1,41 @@
 {% extends "base.html" %}
 
 {% block title %}Chart Comparison{% endblock %}
-{%block styles%}
+
+{% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='charts.css') }}">
 {% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='charts.js') }}"></script>
+{% endblock %}
+
 {% block content %}
-    <div class="comparison-page">
-        {% include '_chart_display.html' with context %}
+    <div class="charts-page">
+        <!-- Navbar with a button to open the date selection menu -->
+        <div class="navbar nav-btn-group">
+            <button id="short_term_btn" class="nav-btn active">Short Term</button>
+            <button id="medium_term_btn" class="nav-btn">Medium Term</button>
+            <button id="long_term_btn" class="nav-btn">Long Term</button>
+        </div>
+
+        <!-- Chart comparison content -->
+        <div id="chart-container">
+            <div id="short_term_chart" class="chart-content">
+                {% set title = short_term_chart["title"] %}
+                {% set chart = short_term_chart["chart"] %}
+                {% include '_chart_display.html' %}
+            </div>
+            <div id="medium_term_chart" class="chart-content">
+                {% set title = medium_term_chart["title"] %}
+                {% set chart = medium_term_chart["chart"] %}
+                {% include '_chart_display.html' %}
+            </div>
+            <div id="long_term_chart" class="chart-content">
+                {% set title = long_term_chart["title"] %}
+                {% set chart = long_term_chart["chart"] %}
+                {% include '_chart_display.html' %}
+            </div>
+        </div>
     </div>
 {% endblock %}
