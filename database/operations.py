@@ -45,7 +45,6 @@ def save_top_artists(data: dict):
     except Exception as e:
         logger.error(f"Error saving top artists: {e}")
 
-
 def fetch_chart_document(chart_type: str, time_frame: str, date: datetime = None) -> dict:
     """
     Fetches the chart document for a specific time frame and date.
@@ -138,3 +137,42 @@ def get_artist_details(artist_id):
     if artist_doc:
         return artist_doc["artists_data"]  # Return the first matching artist data
     return None
+
+def fetch_item_data(chart_type, item_id):
+    """
+    Fetches chart data for either tracks or artists, depending on the chart_type parameter.
+    
+    Args:
+        chart_type (str): Either "tracks" or "artists" to determine which collection to query.
+        item_id (str): The track_id or artist_id to filter the data.
+    
+    Returns:
+        Cursor: The MongoDB cursor with the aggregated data.
+    """
+
+    db = get_db()
+    collection = db[f"top_{chart_type}"]
+
+    item_field = f"{chart_type}_data.{chart_type[:-1]}_id"  # 'tracks_data.track_id' or 'artists_data.artist_id'
+
+    pipeline = [
+        {"$match": {item_field: item_id}},  # Match documents containing the item_id
+        {"$unwind": f"${chart_type}_data"},  # Unwind the tracks_data or artists_data array
+        {"$match": {item_field: item_id}},  # Match the specific item_id again in the unwound array
+        {"$sort": {"timestamp": -1}},  # Sort by timestamp in descending order
+        {
+            "$group": {
+                "_id": {
+                    f"{chart_type[:-1]}_id": f"${chart_type}_data.{chart_type[:-1]}_id",
+                    "time_frame": "$time_frame"
+                },
+                "max_position": {"$min": f"${chart_type}_data.chart_position"},
+                "min_position": {"$max": f"${chart_type}_data.chart_position"},
+                "duration": {"$sum": 1},
+                "latest_chart_position": {"$first": f"${chart_type}_data.chart_position"}
+            }
+        },
+        {"$sort": {"_id.time_frame": 1}}  # Sort results by time_frame
+    ]
+    
+    return collection.aggregate(pipeline)
