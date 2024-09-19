@@ -8,15 +8,60 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='track_artist_page.css') }}">
 {% endblock %}
 
+{% block scripts %}
+    <!-- Include Plotly.js library -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const buttons = document.querySelectorAll('.graph-btn');
+            const graphContainer = document.getElementById('graph-container');
+            const loadingPlaceholder = document.getElementById('loading-placeholder');
+
+            // Function to load the graph based on the selected time frame
+            function loadGraph(timeFrame) {
+                loadingPlaceholder.style.display = 'block';  // Show the placeholder
+                graphContainer.innerHTML = '';  // Clear the graph container
+
+                // Fetch the graph from the server as JSON
+                const chartType = "{{ graph_info['chart_type'] }}";  // Jinja2 data
+                const itemId = "{{ graph_info['item_id'] }}";  // Jinja2 data
+
+                fetch(`/plot_graph/${chartType}/${itemId}/${timeFrame}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        loadingPlaceholder.style.display = 'none';  // Hide placeholder
+                        Plotly.newPlot(graphContainer, data.data, data.layout);  // Plot the graph
+                    })
+                    .catch(error => {
+                        console.error("Error loading graph:", error);
+                    });
+            }
+
+            // Add event listeners to buttons
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const timeFrame = this.dataset.timeFrame;
+                    loadGraph(timeFrame);  // Load the graph for the selected time frame
+                });
+            });
+
+            // Load the default graph (short term) on page load
+            loadGraph('short_term');
+        });
+    </script>    
+{% endblock %}
+
 {% block content %}
     <div class="main-block">
-        <!-- Top Section: Image and Text -->
-        <div class="top-section">
+        <div class="info-section">
             {% include page_type %}
         </div>
 
-        <!-- Bottom Section: Stats Cards -->
-        <div class="bottom-section">
+        <div class="stat-cards-section">
             {% for item in stats %}
                 <div class="stat-card">
                     <h3>{{ item.time_frame.replace("_", " ").capitalize() }}</h3>
@@ -28,6 +73,21 @@
                     </ul>
                 </div>
             {% endfor %}
+        </div>
+
+        <!-- Graph Section -->
+        <div class="graph-section">
+            <div class="graph-buttons">
+                <button id="short_term_btn" class="graph-btn active" data-time-frame="short_term">Short Term</button>
+                <button id="medium_term_btn" class="graph-btn" data-time-frame="medium_term">Medium Term</button>
+                <button id="long_term_btn" class="graph-btn" data-time-frame="long_term">Long Term</button>
+            </div>
+
+            <div class="graph-wrapper">
+                <!-- Placeholder while graphs are loading -->
+                <div class="graph-container" id="graph-container"></div>
+                <div id="loading-placeholder" class="loading-placeholder"></div>
+            </div>
         </div>
     </div>
 {% endblock %}

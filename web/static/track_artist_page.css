@@ -12,7 +12,7 @@
 }
 
 /* Top section styling */
-.top-section {
+.info-section {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -49,7 +49,7 @@
 }
 
 /* Bottom section styling */
-.bottom-section {
+.stat-cards-section {
     display: flex;
     justify-content: space-between;
     gap: 20px;
@@ -92,9 +92,79 @@
     text-decoration: underline; /* Show underline on hover */
 }
 
-/* Responsive Design: Adjust layout for smaller screens */
+/* Graph Buttons */
+.graph-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.graph-btn {
+    padding: 10px 20px;
+    border: 2px solid black;
+    background-color: #f8f9fa;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.graph-btn.active {
+    background-color: black;
+    color: white;
+}
+
+.graph-btn:hover {
+    background-color: black;
+    color: white;
+}
+
+/* Graph Section */
+.graph-section {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Graph Wrapper (Container for both graph and placeholder) */
+.graph-wrapper {
+    position: relative;  /* Make sure the placeholder and graph stack */
+    width: 100%;
+    height: 400px;
+}
+
+/* Graph Container */
+.graph-container {
+    width: 100%;
+    height: 100%;  /* Fill the available space in the wrapper */
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+/* Loading Placeholder (Sliding Gradient) */
+.loading-placeholder {
+    width: 100%;
+    height: 100%;  /* Match the height of the graph */
+    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;  /* Ensure it's on top of the graph until the graph is loaded */
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
 @media (max-width: 768px) {
-    .top-section {
+    .info-section {
         flex-direction: column;
         align-items: center;
     }
@@ -116,7 +186,7 @@
         font-size: 16px; /* Smaller text on mobile */
     }
 
-    .bottom-section {
+    .stat-cards-section {
         flex-direction: column; /* Stack stat cards vertically */
         gap: 15px;
     }
@@ -133,6 +203,9 @@
 
     .stat-card ul li {
         font-size: 16px;
+    }
+    .graph-section img {
+        width: 100%; 
     }
 }
 
