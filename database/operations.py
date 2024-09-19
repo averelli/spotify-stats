@@ -176,3 +176,42 @@ def fetch_item_data(chart_type, item_id):
     ]
     
     return collection.aggregate(pipeline)
+
+def fetch_item_positions(chart_type:str, item_id:str, time_frame:str):
+    """
+    Fetches chart data for either tracks or artists, depending on the chart_type parameter,
+    and the specified time frame.
+
+    Args:
+        chart_type (str): Either "tracks" or "artists".
+        item_id (str): Id of the item to look for.
+        time_frame (str): The time frame to query (e.g., "short_term", "medium_term", "long_term").
+
+    Returns:
+        (Dates, Positions)
+    """
+    db = get_db()
+    collection = db[f"top_{chart_type}"]
+
+    cursor = collection.find(
+                                {'time_frame': time_frame},
+                                {f"{chart_type}_data": 1, 'timestamp': 1}
+                            ).sort('timestamp', 1) 
+    
+    dates = []
+    positions = []
+
+    # Select the correct field for track/artist ID and chart position
+    for document in cursor:
+        item_data = next((item for item in document[f"{chart_type}_data"] if item[f"{chart_type[:-1]}_id"] == item_id), None)
+
+        # Append date
+        dates.append(document['timestamp'])
+
+        # Append position if item is found, otherwise append None
+        positions.append(item_data['chart_position'] if item_data else None)
+
+    # Convert dates to a format matplotlib can use
+    dates = [datetime.fromtimestamp(date.timestamp()) for date in dates]
+
+    return dates, positions
