@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, abort
+from flask import Blueprint, render_template, send_file, request, redirect, url_for, abort
 from scripts.compare import compare_charts
 from database import fetch_chart_document, get_track_details, get_artist_details
 from utils import fetch_artist_details
 from stats import get_track_chart_stats, get_artist_chart_stats
 from datetime import datetime, timedelta
+from stats import plot_chart_position
 
 main_bp = Blueprint("main", __name__)
 
@@ -61,7 +62,6 @@ def compare_form():
     # For GET requests, simply render the form
     return render_template("compare_form.html")
 
-
 @main_bp.route("/compare/<chart_type>", methods=["GET"])
 def compare(chart_type):
     # Get the date2 from the request arguments (default to yesterday if not provided)
@@ -96,7 +96,12 @@ def track(track_id):
     
     user_stats = get_track_chart_stats(track_id)
 
-    return render_template("card_display.html", track_data = track_data, stats = user_stats, page_type="track_card.html", title = track_data["title"])
+    graph_info = {
+        "item_id": track_id,
+        "chart_type": "tracks"
+    }
+
+    return render_template("card_display.html", track_data = track_data, stats = user_stats, page_type="track_card.html", title = track_data["title"], graph_info = graph_info)
 
 @main_bp.route("/artists/<artist_id>")
 def artist(artist_id):
@@ -109,16 +114,18 @@ def artist(artist_id):
         abort(404)
 
     user_stats = get_artist_chart_stats(artist_id)
-    print(user_stats)
 
-    return render_template("card_display.html", artist_data = artist_data, stats=user_stats, page_type="artist_card.html", title=artist_data["name"])
+    graph_info = {
+        "item_id": artist_id,
+        "chart_type": "artists"
+    }
 
+    return render_template("card_display.html", artist_data = artist_data, stats=user_stats, page_type="artist_card.html", title=artist_data["name"], graph_info = graph_info)
 
-# automation script to run the main script on a schedule 
-
-from scripts.main import main
-from flask import jsonify
-@main_bp.route('/run-main', methods=['POST'])
-def run_script():
-    main()
-    return jsonify({"status": "Script executed successfully"}), 200
+@main_bp.route('/plot_graph/<chart_type>/<item_id>/<time_frame>')
+def plot_graph(chart_type, item_id, time_frame):
+    """
+    Route to generate and serve a Plotly chart of track or artist positions over time.
+    """
+    plot_data = plot_chart_position(item_id, chart_type, time_frame)
+    return plot_data
