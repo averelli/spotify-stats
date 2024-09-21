@@ -1,4 +1,5 @@
 from datetime import datetime
+import pytz
 from database import get_db
 from logs import logger
 from datetime import datetime
@@ -16,7 +17,7 @@ def save_top_tracks(data: dict):
         db = get_db()
         collection = db["top_tracks"]
         document = {
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(pytz.timezone('Europe/Moscow')),
             "time_frame": data["time_frame"],
             "tracks_data": data["tracks_data"]
         }
@@ -36,7 +37,7 @@ def save_top_artists(data: dict):
         db = get_db()
         collection = db["top_artists"]
         document = {
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(pytz.timezone('Europe/Moscow')),
             "time_frame": data["time_frame"],
             "artists_data": data["artists_data"]
         }
